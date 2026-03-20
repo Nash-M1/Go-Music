@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import type { usePlayer } from '../hooks/usePlayer'
 
 type PlayerProps = ReturnType<typeof usePlayer>

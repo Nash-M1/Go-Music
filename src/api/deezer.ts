@@ -1,8 +1,9 @@
 import axios from 'axios'
 import type { Track, SearchResponse } from '../types'
 
-const PROXY = 'https://corsproxy.io/?'
-const BASE = 'https://api.deezer.com'
+const BASE = import.meta.env.DEV
+  ? 'https://corsproxy.io/?' + encodeURIComponent('https://api.deezer.com')
+  : '/api/deezer'
 
 const deezerAxios = axios.create()
 
@@ -19,8 +20,12 @@ deezerAxios.interceptors.response.use(
   }
 )
 
-const buildUrl = (path: string) =>
-  `${PROXY}${encodeURIComponent(`${BASE}${path}`)}`
+const buildUrl = (path: string) => {
+  if (import.meta.env.DEV) {
+    return `https://corsproxy.io/?${encodeURIComponent(`https://api.deezer.com${path}`)}`
+  }
+  return `/api/deezer${path}`
+}
 
 export const getTopCharts = async (): Promise<Track[]> => {
   const { data } = await deezerAxios.get<{ data: Track[] }>(

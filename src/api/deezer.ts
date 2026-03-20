@@ -1,10 +1,6 @@
 import axios from 'axios'
 import type { Track, SearchResponse } from '../types'
 
-const BASE = import.meta.env.DEV
-  ? 'https://corsproxy.io/?' + encodeURIComponent('https://api.deezer.com')
-  : '/api/deezer'
-
 const deezerAxios = axios.create()
 
 deezerAxios.interceptors.request.use((config) => {
